@@ -2,3 +2,11 @@
 /.gradle/
 /build/
 /build/classes/java/main/
+/run/
+/run/config/
+/run/crash-reports/
+/run/defaultconfigs/
+/run/logs/
+/run/mods/
+/run/resourcepacks/
+/run/saves/
