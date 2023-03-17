@@ -6,6 +6,12 @@
   "item.bmachines.raw_dynanium": "Raw Dynanium",
   "item.bmachines.dynanium_ingot": "Dynanium Ingot",
   "item.bmachines.dynanium_core": "Dynanium Core",
+  "item.bmachines.dynanium_plate": "Dynanium Plate",
+  "item.bmachines.copper_plate": "Copper Plate",
+  "item.bmachines.iron_plate": "Iron Plate",
+  "item.bmachines.gold_plate": "Gold Plate",
+  "item.bmachines.diamond_plate": "Diamond Plate",
+  "item.bmachines.emerald_plate": "Emerald Plate",
 
   "block.bmachines.dynanium_block": "Block of Dynanium",
   "block.bmachines.dynanium_ore": "Dynanium Ore",

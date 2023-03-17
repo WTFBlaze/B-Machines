@@ -27,6 +27,7 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
@@ -101,24 +102,10 @@ public class StoneInfusionGeneratorBlockEntity extends BlockEntity implements Me
     private LazyOptional<IEnergyStorage> lazyEnergyHandler = LazyOptional.empty();
     private LazyOptional<IFluidHandler> lazyFluidHandler = LazyOptional.empty();
 
-    private final Map<Direction, LazyOptional<BWrapperHandler>> directionWrappedHandlerMap =
-            Map.of(
-                    Direction.DOWN, LazyOptional.of(() -> new BWrapperHandler(itemHandler, (i) -> i == 2, (i, s) -> false)),
-
-                    Direction.NORTH, LazyOptional.of(() -> new BWrapperHandler(itemHandler, (index) -> index == 1,
-                            (index, stack) -> itemHandler.isItemValid(1, stack))),
-
-                    Direction.SOUTH, LazyOptional.of(() -> new BWrapperHandler(itemHandler, (i) -> i == 2, (i, s) -> false)),
-
-                    Direction.EAST, LazyOptional.of(() -> new BWrapperHandler(itemHandler, (i) -> i == 1,
-                            (index, stack) -> itemHandler.isItemValid(1, stack))),
-
-                    Direction.WEST, LazyOptional.of(() -> new BWrapperHandler(itemHandler, (index) -> index == 0 || index == 1,
-                            (index, stack) -> itemHandler.isItemValid(0, stack) || itemHandler.isItemValid(1, stack))));
-
     protected final ContainerData data;
     private int progress = 0;
     private int maxProgress = 78;
+    private static final int maxExtract = 3000;
 
     public StoneInfusionGeneratorBlockEntity(BlockPos pos, BlockState state)
     {
@@ -177,7 +164,8 @@ public class StoneInfusionGeneratorBlockEntity extends BlockEntity implements Me
     @Override
     public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side)
     {
-        if (cap == ForgeCapabilities.ENERGY){
+        if (cap == ForgeCapabilities.ENERGY)
+        {
             return lazyEnergyHandler.cast();
         }
 
@@ -185,32 +173,12 @@ public class StoneInfusionGeneratorBlockEntity extends BlockEntity implements Me
             return lazyFluidHandler.cast();
         }
 
-        if (cap == ForgeCapabilities.ITEM_HANDLER)
-        {
-            if (side == null)
-                return lazyItemHandler.cast();
-
-            if(directionWrappedHandlerMap.containsKey(side))
-            {
-                Direction localDir = this.getBlockState().getValue(StoneInfusionGeneratorBlock.FACING);
-
-                if(side == Direction.UP || side == Direction.DOWN) {
-                    return directionWrappedHandlerMap.get(side).cast();
-                }
-
-                return switch (localDir) {
-                    default -> directionWrappedHandlerMap.get(side.getOpposite()).cast();
-                    case EAST -> directionWrappedHandlerMap.get(side.getClockWise()).cast();
-                    case SOUTH -> directionWrappedHandlerMap.get(side).cast();
-                    case WEST -> directionWrappedHandlerMap.get(side.getCounterClockWise()).cast();
-                };
-            }
+        if (cap == ForgeCapabilities.ITEM_HANDLER){
+            return lazyItemHandler.cast();
         }
 
         return super.getCapability(cap, side);
     }
-
-
 
     @Override
     public void onLoad() {
@@ -265,22 +233,19 @@ public class StoneInfusionGeneratorBlockEntity extends BlockEntity implements Me
 
         if (hasStoneInFirstSlot(entity) && hasEnoughFluid(entity)) {
             entity.progress++;
-            setChanged(level, pos, state);
 
             if (entity.progress >= entity.maxProgress) {
                 createEnergy(entity);
-                setChanged(level, pos, state);
             }
         }
         else{
             entity.resetProgress();
-            setChanged(level, pos, state);
         }
 
         if (hasLavaInSecondSlot(entity))
-        {
             transferItemFluidToFluidTank(entity);
-        }
+
+        setChanged(level, pos, state);
     }
 
     private static boolean hasStoneInFirstSlot(StoneInfusionGeneratorBlockEntity entity){
@@ -298,7 +263,7 @@ public class StoneInfusionGeneratorBlockEntity extends BlockEntity implements Me
     private static void createEnergy(StoneInfusionGeneratorBlockEntity entity){
         entity.itemHandler.extractItem(0, 1, false);
         entity.resetProgress();
-        entity.energyHandler.receiveEnergy(100, false);
+        entity.energyHandler.receiveEnergy(350, false);
         entity.fluidHandler.drain(100, IFluidHandler.FluidAction.EXECUTE);
     }
 
