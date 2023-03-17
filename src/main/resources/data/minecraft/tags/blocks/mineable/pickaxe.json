@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "bmachines:dynanium_ore",
+    "bmachines:deepslate_dynanium_ore",
+    "bmachines:dynanium_block",
+    "bmachines:stone_infusion_generator"
+  ]
+}

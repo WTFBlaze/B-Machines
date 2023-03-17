@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "111",
+    "232",
+    "242"
+  ],
+  "key": {
+    "1": {
+      "item": "minecraft:glass"
+    },
+    "2": {
+      "item": "minecraft:iron_ingot"
+    },
+    "3": {
+      "item": "bmachines:dynanium_core"
+    },
+    "4": {
+      "item": "minecraft:bucket"
+    }
+  },
+  "result": {
+    "item": "bmachines:stone_infusion_generator"
+  }
+}

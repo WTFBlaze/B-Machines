@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "bmachines:block/stone_infusion_generator"
+    },
+    "facing=south": {
+      "model": "bmachines:block/stone_infusion_generator",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "bmachines:block/stone_infusion_generator",
+      "y": 270
+    },
+    "facing=east": {
+      "model": "bmachines:block/stone_infusion_generator",
+      "y": 90
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "121",
+    "232",
+    "121"
+  ],
+  "key": {
+    "1": {
+      "item": "bmachines:dynanium_ingot"
+    },
+    "2": {
+      "item": "minecraft:stone"
+    },
+    "3": {
+      "item": "minecraft:iron_bars"
+    }
+  },
+  "result": {
+    "item": "bmachines:dynanium_core",
+    "count": 2
+  }
+}

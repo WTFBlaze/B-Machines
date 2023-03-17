@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "bmachines:dynanium_block"
+    }
+  ],
+  "result": {
+    "item": "bmachines:dynanium_ingot",
+    "count": 9
+  }
+}
